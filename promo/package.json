@@ -1,0 +1,6 @@
+{
+  "name": "douyin-companion-promo",
+  "private": true,
+  "scripts": { "render": "node render.cjs", "preview": "node render.cjs --preview" },
+  "dependencies": { "@napi-rs/canvas": "0.1.100" }
+}

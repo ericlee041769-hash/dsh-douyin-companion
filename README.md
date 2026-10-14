@@ -1,168 +1,62 @@
-<div align="center">
+# DSH 抖音伴随
 
-# 🐟 dsh-slackoff
+**Agent 工作时播放，审核时暂停，继续后续播，任务完成后暂停。**
 
-**摸鱼伴侣 —— AI 干活时，自动弹出视频小窗陪你摸鱼**
+[GitHub](https://github.com/leelox/dsh-douyin-companion) · [Gitee](https://gitee.com/sensenlee/dsh-douyin-companion)
 
-[![Chrome MV3](https://img.shields.io/badge/Chrome-MV3-4285F4?logo=googlechrome&logoColor=white)]()
-[![DSH Plugin](https://img.shields.io/badge/DSH-plugin-0ea5e9)]()
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+![功能演示](docs/promo-poster.png)
 
-</div>
+[观看 45 秒宣传片](https://github.com/leelox/dsh-douyin-companion/releases/download/v0.2.3/dsh-douyin-companion-16x9.mp4) · [宣传片源码](promo/README.md)
 
----
+基于 [zhangCzhe/dsh-slackoff](https://github.com/zhangCzhe/dsh-slackoff) 改造。适配 DSH Desktop 0.2.0-rc.2 的侧栏、会话状态与浏览器接口。
 
-## 这是什么
+## 使用
 
-**dsh-slackoff**（摸鱼伴侣）是一个「AI 工作间隙自动摸鱼」小工具：
+安装后，对话标题栏出现「抖音 · 自动」。Agent 开始运行时，右侧自动打开抖音。
 
-- 🏃 **AI 开始思考 / 调用工具** → 屏幕右侧自动弹出一个小窗，开始播放视频
-- 🛑 **AI 中断 / 暂停 / 向你询问** → 视频自动暂停，把声音和注意力还给你
-
-> 真实视频站页面完整保留——弹幕、评论、推荐、进度条，全都在，不是阉割版内嵌播放器。
-
----
-
-## ✨ 特性
-
-| | |
+| 场景 | 行为 |
 |---|---|
-| ⏯️ 自动播放 / 自动暂停 | 完全跟随 AI 状态，零手动操作 |
-| 🪟 小窗常驻 | 右侧 420×640 常驻小窗，不遮挡主界面 |
-| 🖼️ 画中画 | 播放时自动进入画中画（可选开关） |
-| 🌐 多站点 | B 站 / YouTube / TikTok 等 |
-| 🐟 一键摸鱼 | 输入框旁「开始摸鱼」按钮，随时手动唤起 |
-| 🎯 聚焦即暂停 | 点击输入框准备打断时，自动暂停 |
-| 🔧 可配置 | 目标站点列表动态增删；「只在复杂任务时开启」 |
+| 当前会话或其子 Agent 运行 | 打开侧栏并播放 |
+| 需要审核、回答或其他人工操作 | 暂停所有视频，显示提示蒙版；在原对话区处理 |
+| 人工操作结束且 Agent 继续运行 | 从暂停位置续播 |
+| 任务完成、停止或连接断开 | 暂停 |
+| 切换会话、隐藏视频页 | 暂停隐藏的视频 |
 
----
+侧栏顶部有「自动联动」开关和刷新按钮。首次有声播放被浏览器拦截时，会静音播放，点击「开启声音」即可。抖音的登录、推荐与页面交互在原网页中完成。
 
-## 📸 效果预览
+**0.2.3：新建对话复用抖音登录态。** 插件在所有对话、工作区之间共用自己的浏览器存储；每个页面独立管理播放和释放。升级到 0.2.3 后需要登录一次。DSH Desktop 0.2.0-rc.2 的浏览器接口只提供进程内存储，退出并重新打开 DSH 后需要重新登录。
 
-AI 工作时，右侧自动弹出视频小窗并播放；AI 中断 / 询问时自动暂停。
+## 安装
 
-<div align="center">
-  <img src="docs/screenshot-runtime.png" alt="dsh-slackoff 运行效果：AI 工作时抖音小窗播放" width="800">
-</div>
+从 [GitHub Release](https://github.com/leelox/dsh-douyin-companion/releases/tag/v0.2.3) 下载 `dsh-douyin-companion-0.2.3.tgz`，在 DSH 的「插件」页添加该文件的绝对路径。安装器如提示需要重启，请先结束正在运行的任务。
 
-**摸鱼配置**（DSH 设置 → 通用）：站点列表可增删、点击启用，「只在复杂任务时开启」。
+也可从 GitHub 或 Gitee 克隆源码后打包：
 
-<div align="center">
-  <img src="docs/screenshot-setting.png" alt="dsh-slackoff 摸鱼配置面板" width="640">
-</div>
-
-**扩展设置面板**（Chrome 工具栏 🐟 图标）：实时显示 AI 状态与目标站点，开关自动控制与画中画。
-
-<div align="center">
-  <img src="docs/screenshot-popup.png" alt="dsh-slackoff 扩展设置面板" width="320">
-</div>
-
----
-
-## 🎬 工作原理
-
-**DSH 插件**（`dsh/`）监听 Agent 事件（思考 / 调用工具 / 审批 / 结束），经状态机归纳为 `thinking · tool · awaiting · idle` 四态，并通过 `GET /slackoff/state` 暴露。
-
-**Chrome 扩展**（`extension/`）在 DSH 页轮询这个状态，经后台路由到视频站页面，调用真实 `<video>` 的 `play()` / `pause()`，并支持画中画。
-
----
-
-## 🌐 支持的站点
-
-Bilibili · YouTube · TikTok · Douyin · Vimeo · Dailymotion · Twitter(X) · Facebook · Instagram · Reddit · Twitch
-
----
-
-## 🚀 安装
-
-### 前置条件
-
-- Chrome（MV3，≥ Chrome 111）
-- 一个运行中的 DSH 会话（`http://127.0.0.1:3080`）
-- Node.js ≥ 18
-
-### 1️⃣ 安装 Chrome 扩展
-
-```bash
-# 克隆仓库
-git clone https://github.com/zhangCzhe/dsh-slackoff.git
-cd dsh-slackoff
-
-# 打包扩展源码 → extension/dist/
-npm install               # 安装 esbuild
-npm run build:extension   # 或零依赖方式：node build-extension-nospawn.mjs
+```sh
+npm ci
+npm test
+npm run build
+npm pack
 ```
 
-然后加载到 Chrome：
+## 保留的模块
 
-1. 打开 `chrome://extensions`
-2. 打开右上角 **「开发者模式」**
-3. 点 **「加载已解压的扩展程序」**
-4. 选择本仓库的 `extension/` 目录（含 `manifest.json` 的那一层）
+- `src/activity.js`：从当前会话及子 Agent 的状态得出播放动作，审核优先于运行；其他会话与分叉不会干扰。
+- `src/media.js`：在抖音页面控制实际视频，暂停保留进度，阻止等待审核时页面自行重播；识别直播 MediaStream 更换，隔离过期播放请求。切流取消不再弹错，已经播放的直播不重复启动。
+- `src/client.jsx`：注册 DSH 原生侧栏，订阅状态，共用抖音登录存储，按页面管理创建、保持与释放，显示审核提醒。
+- `src/style.css`：侧栏工具条及审核提示。
+- `index.js` / `cordis.patch.yml`：DSH 加载插件所需入口；不注册模型工具或修改提示词。
 
-> ✅ 验证：工具栏出现 🐟 图标；点它应弹出设置面板并显示「AI 状态 / 目标站点」。
+## 已移除的路径
 
-### 2️⃣ 安装 DSH 插件
+Chrome 扩展、独立弹窗、画中画、Host HTTP 状态端点、跨会话计数器、多网站配置、复杂任务筛选，以及对应的旧测试和构建脚本。桌面版仅保留当前需要的抖音侧栏联动。
 
-```bash
-npm install dsh-slackoff
-```
+0.2.3 移除按工作区／对话分配抖音登录存储的路径，以及不再需要的 `workspaces` 服务依赖。
 
-> 扩展默认从 `http://127.0.0.1:3080/slackoff/state` 读状态，两端需在同机配对。
+## 验证
 
----
+18 项客户端、状态与播放器测试覆盖：插槽共存与卸载、审批暂停与恢复、结束暂停、子 Agent 审核、跨会话隔离、共享登录存储与独立页面释放、断线、隐藏视频、延迟播放竞态、换视频、静音自动播放、直播切流取消、过期结果隔离与释放。
 
-## 🎮 使用
+桌面实测结果见 [VERIFICATION.md](VERIFICATION.md)。
 
-1. 打开 DSH 会话页面（`127.0.0.1:3080`）。
-2. 侧边栏 → 设置 → **「🐟 摸鱼配置」**，添加目标站点（B 站 / YouTube 链接），设为「使用中」。
-3. 让 AI 开始一个任务 → 右侧自动弹出小窗并播放。
-4. AI 询问 / 中断 / 回合结束 → 视频自动暂停。
-5. 想手动摸鱼？点输入框旁的 **「🐟 开始摸鱼」** 按钮。
-
-### 首次播放授权
-
-浏览器自动播放策略要求一次用户手势。首次使用时点一下视频页即可解锁有声自动播放（TikTok 会自动以静音起步）。
-
----
-
-## 📁 目录结构
-
-```
-dsh-slackoff/
-├── package.json                # 根包：test / build:extension
-├── build-extension.mjs         # esbuild 打包脚本
-├── build-extension-nospawn.mjs # 零依赖打包脚本（无 esbuild 环境可用）
-├── dsh/                        # DSH 插件
-│   ├── host.js                 #   Host：事件 → 状态机 → 端点
-│   ├── client.js               #   Client：按钮 + 配置面板
-│   ├── client.css
-│   ├── state-machine.js        #   状态机（纯逻辑）
-│   └── package.json            #   可分发包清单
-├── extension/                  # Chrome 扩展
-│   ├── manifest.json
-│   └── src/
-│       ├── background.js       #   service worker 路由
-│       ├── dsh-bridge.js       #   DSH 页状态桥
-│       ├── site-controller.js  #   视频站控制 + 画中画
-│       ├── selectors.js        #   视频选择器
-│       ├── decision.js         #   播放决策 + 去重
-│       ├── shadow-patch.js     #   强制开放 shadow root
-│       ├── options.html / .js  #   扩展设置面板
-└── test/                       # node --test 纯逻辑测试
-```
-
----
-
-## 🛠 开发
-
-```bash
-npm test                # 跑纯逻辑测试（状态机 / 决策 / 选择器 / 端点）
-npm run build:extension # 打包扩展
-```
-
----
-
-## 📄 License
-
-[MIT](./LICENSE)
+上游出处与基线提交见 [UPSTREAM.md](UPSTREAM.md)。保留原 MIT 许可证。
