@@ -1,9 +1,9 @@
 {
   "name": "dsh-douyin-companion",
   "version": "0.2.3",
-  "repository": { "type": "git", "url": "https://github.com/leelox/dsh-douyin-companion.git" },
-  "homepage": "https://github.com/leelox/dsh-douyin-companion",
-  "bugs": "https://github.com/leelox/dsh-douyin-companion/issues",
+  "repository": { "type": "git", "url": "https://github.com/ericlee041769-hash/dsh-douyin-companion.git" },
+  "homepage": "https://github.com/ericlee041769-hash/dsh-douyin-companion",
+  "bugs": "https://github.com/ericlee041769-hash/dsh-douyin-companion/issues",
   "description": "DSH 桌面抖音侧栏：工作时播放、审核时暂停提醒、继续后续播、结束后暂停",
   "type": "module",
   "main": "index.js",

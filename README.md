@@ -2,11 +2,11 @@
 
 **Agent 工作时播放，审核时暂停，继续后续播，任务完成后暂停。**
 
-[GitHub](https://github.com/leelox/dsh-douyin-companion) · [Gitee](https://gitee.com/sensenlee/dsh-douyin-companion)
+[GitHub](https://github.com/ericlee041769-hash/dsh-douyin-companion) · [Gitee](https://gitee.com/sensenlee/dsh-douyin-companion)
 
 ![功能演示](docs/promo-poster.png)
 
-[观看 45 秒宣传片](https://github.com/leelox/dsh-douyin-companion/releases/download/v0.2.3/dsh-douyin-companion-16x9.mp4) · [宣传片源码](promo/README.md)
+[观看 45 秒宣传片](https://github.com/ericlee041769-hash/dsh-douyin-companion/releases/download/v0.2.3/dsh-douyin-companion-16x9.mp4) · [宣传片源码](promo/README.md)
 
 基于 [zhangCzhe/dsh-slackoff](https://github.com/zhangCzhe/dsh-slackoff) 改造。适配 DSH Desktop 0.2.0-rc.2 的侧栏、会话状态与浏览器接口。
 
@@ -28,7 +28,7 @@
 
 ## 安装
 
-从 [GitHub Release](https://github.com/leelox/dsh-douyin-companion/releases/tag/v0.2.3) 下载 `dsh-douyin-companion-0.2.3.tgz`，在 DSH 的「插件」页添加该文件的绝对路径。安装器如提示需要重启，请先结束正在运行的任务。
+从 [GitHub Release](https://github.com/ericlee041769-hash/dsh-douyin-companion/releases/tag/v0.2.3) 下载 `dsh-douyin-companion-0.2.3.tgz`，在 DSH 的「插件」页添加该文件的绝对路径。安装器如提示需要重启，请先结束正在运行的任务。
 
 也可从 GitHub 或 Gitee 克隆源码后打包：
 

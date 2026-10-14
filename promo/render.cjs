@@ -99,7 +99,7 @@ function app(t,scale=1,x=204,y=251) {
   const state=t<18?'running':t<24?'approval':t<31?'resumed':'done';
   const full=out((t-9.2)/1.2), right=900+540*(1-full);
   label('优化设置页面',230,106,29,INK,600);label('整理布局，并验证设置保存流程。',230,152,21,GRAY);
-  box(230,198,610,62,15,'#f5f6f8');label('正在处理你的任务',254,229,22,INK,500);
+  box(230,198,610,62,15,'#f5f6f8');label(state==='done'?'任务已完成':state==='approval'?'等待你确认下一步':'正在处理你的任务',254,229,22,INK,500);
   let done=state==='done';
   ['分析页面结构','调整界面布局','运行验证'].forEach((s,i)=>{
     const yy=303+i*55;
@@ -204,7 +204,7 @@ function frame(t) {
       logo(960,280,162,t);label('DSH 抖音伴随',960,465,75,INK,600,'center');
       label('让等待，有点意思。',960,564,45,'#67758e',500,'center');
       pill('MIT 开源',786,641,164,'#e5eaff','#5269af');pill('v0.2.3',970,641,164,'#e5eaff','#5269af');
-      label('GitHub   leelox / dsh-douyin-companion',960,767,27,'#4f5b74',500,'center');
+      label('GitHub   ericlee041769-hash / dsh-douyin-companion',960,767,27,'#4f5b74',500,'center');
       label('Gitee   sensenlee / dsh-douyin-companion',960,816,27,'#4f5b74',500,'center');
       label('基于 zhangCzhe / dsh-slackoff · MIT',960,912,18,'#9299a8',400,'center');
     });subtitle(t);
